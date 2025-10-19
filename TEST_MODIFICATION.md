@@ -1,6 +1,6 @@
 ﻿# Fichier de Test Git
 
-Date: 19/10/2025 22:13
+Date: 19/10/2025 22:14
 Auteur: Tindo Raoulf
 Projet: Loan Default MLOps
 
@@ -11,3 +11,6 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 - Comprendre Git
 - Faire des commits
 - Créer des Pull Requests
+
+## Statistiques
+Commits effectués: 6
