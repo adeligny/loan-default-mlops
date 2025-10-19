@@ -13,10 +13,7 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 ### 1. Installation et Configuration
 - Créer un environnement virtuel Python
 - Installer les dépendances (requirements.txt)
-- Configurer Flask et MLflow
-
-### 2. Entraînement du Modèle
-- Charger les données loans.csv
+- Configurer Flask et MLflowmm### 2. Entraînement du Modèlem- Charger les données loans.csv
 - Entraîner le modèle de prédiction
 - Commande: python src/train.py --data data/loans.csv
 
@@ -35,5 +32,10 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 - Run: docker run -p 5000:5000 loan-default-app
 - Environnement isolé et portable
 
+### 6. Configuration AWS (ECS + ECR)
+- Créer un repository ECR
+- Créer un cluster ECS
+- Créer un service ECS
+
 ## Statistiques
-Commits effectués: 15
+Commits effectués: 16
