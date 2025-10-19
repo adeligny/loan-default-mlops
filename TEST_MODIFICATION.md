@@ -3,10 +3,10 @@
 Date: 19/10/2025 22:32
 Auteur: Tindo Raoulf
 Projet: Loan Default MLOps
-Statut: En apprentissage 
+Statut: Documentation complète 
 
 ## Description
-Ce fichier sert à pratiquer Git sans impacter le projet.
+Ce fichier détaille les objectifs du projet Loan Default MLOps sans impacter le code source.
 
 ## Objectifs du Projet (README.md)
 
@@ -55,5 +55,17 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 - Déclenchement automatique du workflow
 - Déploiement sur AWS ECS
 
+## Résumé
+Ce projet implémente un pipeline MLOps complet:
+- Développement local avec Flask et MLflow
+- Conteneurisation avec Docker
+- CI/CD avec GitHub Actions
+- Déploiement cloud sur AWS
+
 ## Statistiques
-Commits effectués: 19
+Commits effectués: 20
+Documentation: Complète 
+
+---
+Formation Git terminée le 19/10/2025 à 22:32
+Tous les objectifs du README.md ont été détaillés ! 
