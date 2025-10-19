@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prédiction de défaut</title>
+  <style>
+    body { background:#f3f6fa; font-family:Arial, Helvetica, sans-serif; }
+    .card { max-width:720px; margin:24px auto; background:#fff; padding:22px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,.06); }
+    .grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:14px; }
+    label { font-size:13px; color:#444; display:block; margin-bottom:6px; }
+    input, select { width:100%; box-sizing:border-box; padding:10px; border-radius:8px; border:1px solid #d9dfe7; }
+    h2 { margin:0 0 12px; }
+    .section-title { margin:18px 0 4px; font-size:14px; color:#344054; text-transform:uppercase; letter-spacing:.03em; }
+    .btn { margin-top:12px; padding:10px 16px; border:none; border-radius:10px; background:#2f6fed; color:white; cursor:pointer; }
+    .btn:hover { filter:brightness(1.05); }
+    .badge { display:inline-block; background:#eef4ff; color:#2f6fed; padding:4px 8px; border-radius:999px; font-size:12px; }
+    .result { margin-top:16px; font-weight:bold; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Prédire le risque de défaut</h2>
+    <div class="badge">Seuil actuel : {{ "%.2f"|format(threshold) }}</div>
+
+    <form action="{{ url_for('predict') }}" method="post">
+      <div class="section-title">Variables numériques</div>
+      <div class="grid">
+        <div>
+          <label>Age</label>
+          <input name="Age" type="number" min="18" max="100" step="1" value="{{ defaults['Age'] }}">
+        </div>
+        <div>
+          <label>Income (€ / an)</label>
+          <input name="Income" type="number" min="0" step="100" value="{{ defaults['Income'] }}">
+        </div>
+        <div>
+          <label>LoanAmount (€)</label>
+          <input name="LoanAmount" type="number" min="0" step="100" value="{{ defaults['LoanAmount'] }}">
+        </div>
+        <div>
+          <label>CreditScore</label>
+          <input name="CreditScore" type="number" min="300" max="900" step="1" value="{{ defaults['CreditScore'] }}">
+        </div>
+        <div>
+          <label>MonthsEmployed</label>
+          <input name="MonthsEmployed" type="number" min="0" step="1" value="{{ defaults['MonthsEmployed'] }}">
+        </div>
+        <div>
+          <label>NumCreditLines</label>
+          <input name="NumCreditLines" type="number" min="0" step="1" value="{{ defaults['NumCreditLines'] }}">
+        </div>
+        <div>
+          <label>InterestRate (%)</label>
+          <input name="InterestRate" type="number" min="0" step="any" inputmode="decimal" value="{{ defaults['InterestRate'] }}">
+        </div>
+        <div>
+          <label>LoanTerm (mois)</label>
+          <input name="LoanTerm" type="number" min="3" step="1" value="{{ defaults['LoanTerm'] }}">
+        </div>
+        <div>
+          <label>DTIRatio (0–1)</label>
+          <input name="DTIRatio" type="number" min="0" max="1" step="any" inputmode="decimal" value="{{ defaults['DTIRatio'] }}">
+        </div>
+      </div>
+
+      <div class="section-title">Variables catégorielles</div>
+      <div class="grid">
+        {% for field in ["Education", "EmploymentType", "MaritalStatus", "HasMortgage", "HasDependents", "LoanPurpose", "HasCoSigner"] %}
+          <div>
+            <label>{{ field }}</label>
+            <select name="{{ field }}">
+              {% for opt in options[field] %}
+                <option value="{{ opt }}" {% if defaults[field]==opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        {% endfor %}
+      </div>
+
+      <button type="submit" class="btn">Prédire</button>
+    </form>
+
+    <div class="result">{{ prediction_text }}</div>
+  </div>
+</body>
+</html>
