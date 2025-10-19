@@ -6,3 +6,8 @@ Projet: Loan Default MLOps
 
 ## Description
 Ce fichier sert à pratiquer Git sans impacter le projet.
+
+## Objectifs
+- Comprendre Git
+- Faire des commits
+- Créer des Pull Requests
