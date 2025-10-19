@@ -2,6 +2,12 @@
 
 This project adapts your professor's Flask pattern to a **loan default prediction** problem.
 
+## Membres du groupe
+- Anais DELIGNY
+- Naya Maoudana KARE
+- Raoul FOSSUA
+- Issa BICHARA
+
 ## Quickstart (local)
 
 ```bash
