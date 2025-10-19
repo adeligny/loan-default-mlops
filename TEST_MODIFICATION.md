@@ -1,9 +1,9 @@
-﻿# Fichier de Test Git 
+﻿# Fichier de Test Git 🚀
 
 Date: 19/10/2025 22:32
 Auteur: Tindo Raoulf
 Projet: Loan Default MLOps
-Statut: En apprentissage 
+Statut: En apprentissage 📚
 
 ## Description
 Ce fichier sert à pratiquer Git sans impacter le projet.
@@ -20,5 +20,10 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 - Entraîner le modèle de prédiction
 - Commande: python src/train.py --data data/loans.csv
 
+### 3. Tracking avec MLflow
+- Enregistrer les métriques: precision, f1, roc_auc
+- Lancer l'interface: mlflow ui --port 5001
+- Comparer les expériences
+
 ## Statistiques
-Commits effectués: 12
+Commits effectués: 13
