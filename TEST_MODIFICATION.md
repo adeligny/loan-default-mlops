@@ -16,7 +16,11 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 - Configurer Flask et MLflow
 
 ### 2. Entraînement du Modèle
-- Charger les données loans.csvm- Entraîner le modèle de prédictionm- Commande: python src/train.py --data data/loans.csvmm### 3. Tracking avec MLflow
+- Charger les données loans.csv
+- Entraîner le modèle de prédiction
+- Commande: python src/train.py --data data/loans.csv
+
+### 3. Tracking avec MLflow
 - Enregistrer les métriques: precision, f1, roc_auc
 - Lancer l'interface: mlflow ui --port 5001
 - Comparer les expériences
@@ -41,5 +45,10 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 - Ajouter AWS_SECRET_ACCESS_KEY
 - Configuration sécurisée
 
+### 8. Workflow GitHub Actions
+- Modifier .github/workflows/aws.yml
+- Configurer les noms d'environnement
+- Automatiser le déploiement
+
 ## Statistiques
-Commits effectués: 17
+Commits effectués: 18
