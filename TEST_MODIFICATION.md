@@ -13,11 +13,10 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 ### 1. Installation et Configuration
 - Créer un environnement virtuel Python
 - Installer les dépendances (requirements.txt)
-- Configurer Flask et MLflowmm### 2. Entraînement du Modèlem- Charger les données loans.csv
-- Entraîner le modèle de prédiction
-- Commande: python src/train.py --data data/loans.csv
+- Configurer Flask et MLflow
 
-### 3. Tracking avec MLflow
+### 2. Entraînement du Modèle
+- Charger les données loans.csvm- Entraîner le modèle de prédictionm- Commande: python src/train.py --data data/loans.csvmm### 3. Tracking avec MLflow
 - Enregistrer les métriques: precision, f1, roc_auc
 - Lancer l'interface: mlflow ui --port 5001
 - Comparer les expériences
@@ -37,5 +36,10 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 - Créer un cluster ECS
 - Créer un service ECS
 
+### 7. Secrets GitHub
+- Ajouter AWS_ACCESS_KEY_ID
+- Ajouter AWS_SECRET_ACCESS_KEY
+- Configuration sécurisée
+
 ## Statistiques
-Commits effectués: 16
+Commits effectués: 17
