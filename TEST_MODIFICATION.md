@@ -14,4 +14,7 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 - Créer des Pull Requests
 
 ## Statistiques
-Commits effectués: 7
+Commits effectués: 8
+
+## Note
+Git devient plus facile avec la pratique !
