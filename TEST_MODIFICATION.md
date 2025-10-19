@@ -30,5 +30,10 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 - Accès: http://127.0.0.1:5000
 - API de prédiction en temps réel
 
+### 5. Conteneurisation Docker
+- Build: docker build -t loan-default-app .
+- Run: docker run -p 5000:5000 loan-default-app
+- Environnement isolé et portable
+
 ## Statistiques
-Commits effectués: 14
+Commits effectués: 15
