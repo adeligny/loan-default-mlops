@@ -3,6 +3,7 @@
 Date: 19/10/2025 22:14
 Auteur: Tindo Raoulf
 Projet: Loan Default MLOps
+Statut: En cours d'apprentissage
 
 ## Description
 Ce fichier sert à pratiquer Git sans impacter le projet.
@@ -13,4 +14,4 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 - Créer des Pull Requests
 
 ## Statistiques
-Commits effectués: 6
+Commits effectués: 7
