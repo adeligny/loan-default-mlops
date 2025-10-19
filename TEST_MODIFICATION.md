@@ -1,9 +1,9 @@
-﻿# Fichier de Test Git 🚀
+﻿# Fichier de Test Git 
 
 Date: 19/10/2025 22:32
 Auteur: Tindo Raoulf
 Projet: Loan Default MLOps
-Statut: En apprentissage 📚
+Statut: En apprentissage 
 
 ## Description
 Ce fichier sert à pratiquer Git sans impacter le projet.
@@ -25,5 +25,10 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 - Lancer l'interface: mlflow ui --port 5001
 - Comparer les expériences
 
+### 4. Lancer l'Application Flask
+- Démarrer le serveur: python app.py
+- Accès: http://127.0.0.1:5000
+- API de prédiction en temps réel
+
 ## Statistiques
-Commits effectués: 13
+Commits effectués: 14
