@@ -50,5 +50,10 @@ Ce fichier sert à pratiquer Git sans impacter le projet.
 - Configurer les noms d'environnement
 - Automatiser le déploiement
 
+### 9. Déploiement Automatique
+- Push vers la branche main
+- Déclenchement automatique du workflow
+- Déploiement sur AWS ECS
+
 ## Statistiques
-Commits effectués: 18
+Commits effectués: 19
