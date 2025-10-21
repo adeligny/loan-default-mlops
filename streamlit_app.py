@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 import os, json
 
-# --- Configuration des chemins ---
+# --- Configuration des chemins --
 MODEL_PATH = os.getenv("MODEL_PATH", "artifacts/best_model.joblib")
 THRESHOLD_PATH = "artifacts/threshold.json"
 DEFAULT_THRESHOLD = 0.5
