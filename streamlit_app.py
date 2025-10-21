@@ -73,7 +73,7 @@ for f in ["Education", "EmploymentType", "MaritalStatus", "HasMortgage", "HasDep
 if st.button("Prédire"):
     X = pd.DataFrame([payload])
     proba = float(model.predict_proba(X)[0, 1])
-    pred = int(proba >= thr)
+    
 
     st.markdown(f"### 🔍 Probabilité de défaut : **{proba:.3f}**")
     st.markdown(f"### 📈 Seuil : **{thr:.2f}**")
