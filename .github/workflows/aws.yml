@@ -42,7 +42,7 @@ jobs:
           import os, joblib
           assert os.path.exists("artifacts/best_model.joblib"), "missing artifacts/best_model.joblib"
           m = joblib.load("artifacts/best_model.joblib")
-          from src.app import app
+          from app import app
           print("OK: model and Flask app import")
           PY
 
