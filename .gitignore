@@ -1,9 +1,7 @@
 __pycache__/
 *.pyc
 mlruns/
-artifacts/
 .env
 *.pkl
-*.joblib
 *.log
 *.DS_Store
