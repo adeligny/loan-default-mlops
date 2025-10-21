@@ -1,57 +1,100 @@
-name: Deploy to Amazon ECS
+name: CI-CD to Amazon ECS
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
+  workflow_dispatch: {}
 
 env:
   AWS_REGION: eu-west-3
   ECR_REPOSITORY: loans
-  ECS_SERVICE: loans-task-service
   ECS_CLUSTER: loans-cluster
+  ECS_SERVICE: loans-task-service
   ECS_TASK_DEFINITION: loans-task
   CONTAINER_NAME: loans-container
+  IMAGE_TAG: ${{ github.sha }}
 
 permissions:
   contents: read
+  id-token: write   # (utile si tu passes plus tard à l’auth OIDC)
 
 jobs:
-  deploy:
+  ci:
+    name: Smoke tests
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps (fast)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Smoke test - can import app and load model
+        run: |
+          python - << 'PY'
+          import os, joblib
+          assert os.path.exists("artifacts/best_model.joblib"), "missing artifacts/best_model.joblib"
+          m = joblib.load("artifacts/best_model.joblib")
+          from src.app import app
+          print("OK: model and Flask app import")
+          PY
+
+  deploy:
+    name: Build & Deploy to ECS
+    needs: ci
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        # si tu utilises des clés classiques:
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+        # (plus tard tu pourras passer à l’OIDC sans clés statiques)
 
-      - name: Login to Amazon ECR
+      - name: Ensure ECR repository exists
+        run: |
+          aws ecr describe-repositories --repository-names "${{ env.ECR_REPOSITORY }}" --region ${{ env.AWS_REGION }} >/dev/null 2>&1 || \
+          aws ecr create-repository --repository-name "${{ env.ECR_REPOSITORY }}" --region ${{ env.AWS_REGION }} \
+            --image-scanning-configuration scanOnPush=true \
+            --encryption-configuration encryptionType=AES256 >/dev/null
+
+      - name: Login to ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build & Push image
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          docker build -t $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
+          docker push $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+          # optionnel: tag latest aussi
+          docker tag $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:latest
+          docker push $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:latest
+          echo "image=$ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
 
       - name: Download current task definition
         run: |
           aws ecs describe-task-definition \
             --task-definition ${{ env.ECS_TASK_DEFINITION }} \
-            --query "taskDefinition | {containerDefinitions: containerDefinitions, family: family, networkMode: networkMode, executionRoleArn: executionRoleArn, taskRoleArn: taskRoleArn, requiresCompatibilities: requiresCompatibilities, cpu: cpu, memory: memory}" \
+            --query 'taskDefinition | {containerDefinitions: containerDefinitions, family: family, networkMode: networkMode, executionRoleArn: executionRoleArn, taskRoleArn: taskRoleArn, requiresCompatibilities: requiresCompatibilities, cpu: cpu, memory: memory}' \
+            --region ${{ env.AWS_REGION }} \
             > task-definition.json
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
+      - name: Inject new image into task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -59,7 +102,7 @@ jobs:
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
 
-      - name: Deploy Amazon ECS task definition
+      - name: Deploy updated task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
